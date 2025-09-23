@@ -341,11 +341,14 @@ class SerumLiteSynth:
 
         phase_increments = (2.0 * math.pi * freq_time) / self.synthconfig.sample_rate
         phase = torch.cumsum(phase_increments, dim=-1)
+        phase = torch.remainder(phase, 2.0 * math.pi)
 
-        sine = torch.sin(phase)
+        sine_wave = torch.sin(phase)
+        sine = sine_wave
         saw = 2.0 * ((phase / math.pi) % 2.0) - 1.0
-        square = torch.sign(torch.sin(phase))
-        triangle = 2.0 / math.pi * torch.arcsin(torch.sin(phase))
+        square = torch.sign(sine_wave)
+        eps = 1e-6
+        triangle = 2.0 / math.pi * torch.arcsin(torch.clamp(sine_wave, -1.0 + eps, 1.0 - eps))
 
         morph = wave_param
         morph_tensor = torch.tensor([morph], device=self.device, dtype=torch.float32)
@@ -374,26 +377,26 @@ class SerumLiteSynth:
         cutoff_hz: Tensor,
         resonance: float,
     ) -> Tensor:
-        # Chamberlin SVF implementation (low-pass output);
-        # loop unrolled in torch for clarity over raw speed.
+        # Transposed direct form II SVF per Zavalishin for stability.
         g = torch.tan(math.pi * cutoff_hz / self.synthconfig.sample_rate)
-        r = 1.0 / max(resonance, 1e-5)
+        g = torch.clamp(g, max=50.0)
+        k = 1.0 / max(resonance, 1e-5)
+        h = 1.0 / (1.0 + g * (g + k))
 
-        low = torch.zeros_like(audio)
-        band = torch.zeros_like(audio)
+        batch, n_samples = audio.shape
+        hp = torch.zeros(batch, device=audio.device)
+        bp = torch.zeros(batch, device=audio.device)
+        lp = torch.zeros(batch, device=audio.device)
         out = torch.zeros_like(audio)
 
-        prev_low = torch.zeros((audio.shape[0],), device=audio.device)
-        prev_band = torch.zeros((audio.shape[0],), device=audio.device)
-
-        for idx in range(audio.shape[1]):
-            x = audio[:, idx]
+        for idx in range(n_samples):
             g_step = g[:, idx]
-            band_val = prev_band + g_step * (x - prev_low - r * prev_band)
-            low_val = prev_low + g_step * band_val
-            out[:, idx] = low_val
-            prev_low = low_val
-            prev_band = band_val
+            h_step = h[:, idx]
+            x = audio[:, idx]
+            hp = (x - (k + g_step) * bp - lp) * h_step
+            bp = g_step * hp + bp
+            lp = g_step * bp + lp
+            out[:, idx] = lp
 
         return out.as_subclass(Signal)
 

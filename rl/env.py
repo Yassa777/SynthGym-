@@ -184,7 +184,11 @@ class PresetImitationEnv(gym.Env[np.ndarray, Dict[str, np.ndarray]]):
         params_clamped = params.clamp(0.0, 1.0)
         self.synth.set_param_vector(params_clamped.tolist())
         audio = self.synth.render(self.env_config.midi_note, self.env_config.render_duration)
-        return torch.from_numpy(audio).to(params_clamped)
+        if isinstance(audio, torch.Tensor):
+            tensor = audio
+        else:
+            tensor = torch.from_numpy(np.asarray(audio))
+        return tensor.to(params_clamped)
 
     def _apply_action(self, module: ActionModule, delta: torch.Tensor) -> None:
         active_indices = torch.where(self._active_mask)[0]
