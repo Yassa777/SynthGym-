@@ -1,0 +1,15 @@
+Collecting gymnasium
+  Downloading gymnasium-1.2.1-py3-none-any.whl.metadata (10.0 kB)
+Requirement already satisfied: numpy>=1.21.0 in ./.venv/lib/python3.11/site-packages (from gymnasium) (2.3.3)
+Collecting cloudpickle>=1.2.0 (from gymnasium)
+  Using cached cloudpickle-3.1.1-py3-none-any.whl.metadata (7.1 kB)
+Requirement already satisfied: typing-extensions>=4.3.0 in ./.venv/lib/python3.11/site-packages (from gymnasium) (4.15.0)
+Collecting farama-notifications>=0.0.1 (from gymnasium)
+  Downloading Farama_Notifications-0.0.4-py3-none-any.whl.metadata (558 bytes)
+Downloading gymnasium-1.2.1-py3-none-any.whl (951 kB)
+   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 951.1/951.1 kB 14.4 MB/s  0:00:00
+Using cached cloudpickle-3.1.1-py3-none-any.whl (20 kB)
+Downloading Farama_Notifications-0.0.4-py3-none-any.whl (2.5 kB)
+Installing collected packages: farama-notifications, cloudpickle, gymnasium
+
+Successfully installed cloudpickle-3.1.1 farama-notifications-0.0.4 gymnasium-1.2.1

@@ -1,0 +1,187 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://soundgym.dev/schemas/serum-lite-preset.json",
+  "title": "SerumLitePreset",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "osc1_wave_morph",
+    "osc1_unison",
+    "osc1_detune_cents",
+    "osc1_level",
+    "osc2_wave_morph",
+    "osc2_unison",
+    "osc2_detune_cents",
+    "osc2_level",
+    "osc2_semitone_offset",
+    "noise_level",
+    "filter_cutoff",
+    "filter_resonance",
+    "filter_env_amount",
+    "amp_attack",
+    "amp_decay",
+    "amp_sustain",
+    "amp_release",
+    "mod_attack",
+    "mod_decay",
+    "mod_sustain",
+    "mod_release",
+    "lfo_rate",
+    "lfo_amount",
+    "lfo_target",
+    "master_volume"
+  ],
+  "properties": {
+    "osc1_wave_morph": {
+      "type": "number",
+      "minimum": 0.0,
+      "maximum": 1.0,
+      "description": "OSC1 waveform morphing: sine \u2192 saw \u2192 square \u2192 triangle."
+    },
+    "osc1_unison": {
+      "type": "number",
+      "minimum": 0.0,
+      "maximum": 1.0,
+      "description": "OSC1 unison voices (1-7)."
+    },
+    "osc1_detune_cents": {
+      "type": "number",
+      "minimum": 0.0,
+      "maximum": 1.0,
+      "description": "OSC1 unison detune spread in cents."
+    },
+    "osc1_level": {
+      "type": "number",
+      "minimum": 0.0,
+      "maximum": 1.0,
+      "description": "OSC1 output gain."
+    },
+    "osc2_wave_morph": {
+      "type": "number",
+      "minimum": 0.0,
+      "maximum": 1.0,
+      "description": "OSC2 waveform morphing: sine \u2192 saw \u2192 square \u2192 triangle."
+    },
+    "osc2_unison": {
+      "type": "number",
+      "minimum": 0.0,
+      "maximum": 1.0,
+      "description": "OSC2 unison voices (1-7)."
+    },
+    "osc2_detune_cents": {
+      "type": "number",
+      "minimum": 0.0,
+      "maximum": 1.0,
+      "description": "OSC2 unison detune spread in cents."
+    },
+    "osc2_level": {
+      "type": "number",
+      "minimum": 0.0,
+      "maximum": 1.0,
+      "description": "OSC2 output gain."
+    },
+    "osc2_semitone_offset": {
+      "type": "number",
+      "minimum": 0.0,
+      "maximum": 1.0,
+      "description": "OSC2 coarse tuning in semitones."
+    },
+    "noise_level": {
+      "type": "number",
+      "minimum": 0.0,
+      "maximum": 1.0,
+      "description": "White noise mix level."
+    },
+    "filter_cutoff": {
+      "type": "number",
+      "minimum": 0.0,
+      "maximum": 1.0,
+      "description": "State-variable filter cutoff in Hz."
+    },
+    "filter_resonance": {
+      "type": "number",
+      "minimum": 0.0,
+      "maximum": 1.0,
+      "description": "State-variable filter resonance (Q)."
+    },
+    "filter_env_amount": {
+      "type": "number",
+      "minimum": 0.0,
+      "maximum": 1.0,
+      "description": "Depth of modulation envelope mapped to cutoff (\u00b1 range)."
+    },
+    "amp_attack": {
+      "type": "number",
+      "minimum": 0.0,
+      "maximum": 1.0,
+      "description": "Amplitude envelope attack (s)."
+    },
+    "amp_decay": {
+      "type": "number",
+      "minimum": 0.0,
+      "maximum": 1.0,
+      "description": "Amplitude envelope decay (s)."
+    },
+    "amp_sustain": {
+      "type": "number",
+      "minimum": 0.0,
+      "maximum": 1.0,
+      "description": "Amplitude envelope sustain level."
+    },
+    "amp_release": {
+      "type": "number",
+      "minimum": 0.0,
+      "maximum": 1.0,
+      "description": "Amplitude envelope release (s)."
+    },
+    "mod_attack": {
+      "type": "number",
+      "minimum": 0.0,
+      "maximum": 1.0,
+      "description": "Modulation envelope attack (s)."
+    },
+    "mod_decay": {
+      "type": "number",
+      "minimum": 0.0,
+      "maximum": 1.0,
+      "description": "Modulation envelope decay (s)."
+    },
+    "mod_sustain": {
+      "type": "number",
+      "minimum": 0.0,
+      "maximum": 1.0,
+      "description": "Modulation envelope sustain level."
+    },
+    "mod_release": {
+      "type": "number",
+      "minimum": 0.0,
+      "maximum": 1.0,
+      "description": "Modulation envelope release (s)."
+    },
+    "lfo_rate": {
+      "type": "number",
+      "minimum": 0.0,
+      "maximum": 1.0,
+      "description": "LFO rate in Hz."
+    },
+    "lfo_amount": {
+      "type": "number",
+      "minimum": 0.0,
+      "maximum": 1.0,
+      "description": "LFO modulation depth."
+    },
+    "lfo_target": {
+      "type": "number",
+      "minimum": 0.0,
+      "maximum": 1.0,
+      "description": "Crossfade between pitch (0) and cutoff (1) modulation."
+    },
+    "master_volume": {
+      "type": "number",
+      "minimum": 0.0,
+      "maximum": 1.0,
+      "description": "Overall output gain."
+    }
+  },
+  "description": "Normalized [0,1] preset for the Serum-lite synthesizer."
+}
