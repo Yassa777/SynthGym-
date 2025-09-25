@@ -80,6 +80,31 @@ class FeatureExtractor:
         if match_loudness is not None:
             processed = self._match_loudness(processed, match_loudness)
 
+        return self._analyze_processed(processed)
+
+    def analyze_with_cache(
+        self,
+        audio: torch.Tensor,
+        *,
+        match_loudness: float | torch.Tensor | None = None,
+        out: AudioFeatures | None = None,
+    ) -> AudioFeatures:
+        """Like :meth:`analyze` but optionally reuses tensors from a previous output."""
+        features = self.analyze(audio, match_loudness=match_loudness)
+        if out is None:
+            return features
+
+        out.processed_audio = features.processed_audio
+        out.log_mel = features.log_mel
+        out.mfcc = features.mfcc
+        out.spectral_centroid = features.spectral_centroid
+        out.loudness = features.loudness
+        out.mrstft_magnitude = features.mrstft_magnitude
+        out.clip_ratio = features.clip_ratio
+        out.dc_offset = features.dc_offset
+        return out
+
+    def _analyze_processed(self, processed: torch.Tensor) -> AudioFeatures:
         clip_ratio = (processed.abs() > 0.99).float().mean(dim=1)
         dc_offset = processed.mean(dim=1)
 

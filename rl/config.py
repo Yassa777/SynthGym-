@@ -63,9 +63,22 @@ class PerceptualLossConfig:
     clamp_max_loss: float | None = None
 
 
+@dataclass(frozen=True)
+class EnvConfig:
+    """High-level configuration shared by scalar and vector environments."""
+
+    max_steps: int = 50
+    success_threshold: float = 0.02
+    delta_scale: float = 0.08
+    curriculum_stage: int = 0
+    midi_note: int = 60
+    render_duration: float = 0.5
+
+
 __all__ = [
     "MRSTFTScale",
     "FeatureExtractorConfig",
     "PerceptualLossWeights",
     "PerceptualLossConfig",
+    "EnvConfig",
 ]

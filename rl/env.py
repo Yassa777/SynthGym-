@@ -1,7 +1,6 @@
 """Gymnasium environment for Serum-lite preset imitation."""
 from __future__ import annotations
 
-from dataclasses import dataclass
 from typing import Dict, Optional, Sequence
 
 import gymnasium as gym
@@ -19,22 +18,10 @@ from .actions import (
     param_dim,
     parameter_indices_for,
 )
-from .config import FeatureExtractorConfig, PerceptualLossConfig
+from .config import EnvConfig, FeatureExtractorConfig, PerceptualLossConfig
 from .features import FeatureExtractor
 from .observation import ObservationBuilder
 from .perceptual import PerceptualEvaluator
-
-
-@dataclass(frozen=True)
-class EnvConfig:
-    """High-level configuration for the preset imitation environment."""
-
-    max_steps: int = 50
-    success_threshold: float = 0.02
-    delta_scale: float = 0.08
-    curriculum_stage: int = 0
-    midi_note: int = 60
-    render_duration: float = 0.5
 
 
 class PresetImitationEnv(gym.Env[np.ndarray, Dict[str, np.ndarray]]):
