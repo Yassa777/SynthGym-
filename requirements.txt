@@ -8,3 +8,4 @@ scipy>=1.10
 jsonschema>=4.20
 soundfile>=0.12
 gymnasium>=0.29
+cma>=3.3

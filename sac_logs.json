@@ -1,0 +1,22 @@
+[
+  {
+    "step": 0,
+    "eval/mean_reward": 0.0
+  },
+  {
+    "step": 10,
+    "eval/mean_reward": 0.0
+  },
+  {
+    "step": 20,
+    "eval/mean_reward": 0.0
+  },
+  {
+    "step": 30,
+    "eval/mean_reward": 0.0
+  },
+  {
+    "step": 40,
+    "eval/mean_reward": 0.0
+  }
+]
