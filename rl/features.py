@@ -7,6 +7,8 @@ from typing import Dict, Iterable, List, Tuple
 import torch
 import torchaudio
 from torchaudio import functional as F
+import pyloudnorm as pyln
+import numpy as np
 
 from .config import FeatureExtractorConfig, MRSTFTScale
 
@@ -54,6 +56,7 @@ class FeatureExtractor:
 
         self._build_transforms()
         self._build_mrstft_windows()
+        self._loudness_meter = pyln.Meter(self.config.sample_rate, block_size=self.config.loudness_block_size)
 
     # ------------------------------------------------------------------
     # Public API
@@ -199,9 +202,13 @@ class FeatureExtractor:
 
     def _loudness(self, audio: torch.Tensor) -> torch.Tensor:
         cfg = self.config
-        rms = torch.sqrt(torch.mean(audio**2, dim=1) + self._EPS)
-        lufs = 20.0 * torch.log10(rms + self._EPS)
-        return lufs
+        loudness_vals: List[float] = []
+        for sample in audio.detach().cpu():
+            loud = self._loudness_meter.integrated_loudness(sample.numpy())
+            if not np.isfinite(loud):
+                loud = -60.0
+            loudness_vals.append(loud)
+        return torch.tensor(loudness_vals, dtype=self.dtype, device=audio.device)
 
     def _multi_resolution_stft(self, audio: torch.Tensor) -> Tuple[torch.Tensor, ...]:
         magnitudes: List[torch.Tensor] = []

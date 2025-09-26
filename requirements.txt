@@ -9,3 +9,5 @@ jsonschema>=4.20
 soundfile>=0.12
 gymnasium>=0.29
 cma>=3.3
+pyloudnorm>=0.1.1
+cma>=3.3
